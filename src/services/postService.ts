@@ -1,4 +1,4 @@
-import { Post } from "./Post.types";
+import { Post } from "../types/Post.types";
 
 export async function getPosts(): Promise<Post[]> {
   const res = await fetch("http://localhost:3001/posts");
