@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { getLinks } from "./services/linkService";
 
 export default function Nav() {
-  const links = useQuery(["links"], getLinks, { initialData: [] });
+  const links = useQuery(["links"], getLinks);
 
   if (links.isLoading) {
     return <div>Loading links...</div>;
@@ -12,11 +12,12 @@ export default function Nav() {
   return (
     <nav>
       <ul>
-        {links.data.map((link) => (
-          <li key={link.id}>
-            <Link to={link.url}>{link.text}</Link>
-          </li>
-        ))}
+        {links.data &&
+          links.data.map((link) => (
+            <li key={link.id}>
+              <Link to={link.url}>{link.text}</Link>
+            </li>
+          ))}
       </ul>
     </nav>
   );
