@@ -17,7 +17,7 @@ root.render(
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Posts />} />
-          <Route path="/:postId" element={<Post />} />
+          <Route path="/post/:postId" element={<Post />} />
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>
