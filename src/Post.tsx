@@ -13,12 +13,16 @@ export default function Post() {
     getPost(postIdAsNumber)
   );
 
-  const comment = useQuery(["comment", postIdAsNumber], () =>
+  const comments = useQuery(["comment", postIdAsNumber], () =>
     getComments(postIdAsNumber)
   );
 
-  if (post.isLoading || comment.isLoading) {
-    return <div>Loading...</div>;
+  if (post.isLoading) {
+    return <div>Loading post...</div>;
+  }
+
+  if (comments.isLoading) {
+    return <div>Loading comments...</div>;
   }
 
   if (!post.data) {
@@ -29,7 +33,9 @@ export default function Post() {
     <>
       <h1>{post.data.title}</h1>
       <h2>Comments</h2>
-      {comment.data && comment.data.map((comment) => <p>{comment.body}</p>)}
+      {comments.data && comments.data.length > 0
+        ? comments.data.map((comment) => <p key={comment.id}>{comment.body}</p>)
+        : "No comments"}
     </>
   );
 }
