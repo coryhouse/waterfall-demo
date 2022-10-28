@@ -22,12 +22,12 @@
     {
       "id": 1,
       "url": "/",
-      "text": "Home"
+      "text": "Posts"
     },
     {
       "id": 2,
-      "url": "http://www.facebook.com",
-      "text": "Facebook"
+      "url": "/about",
+      "text": "About"
     }
   ]
 }
