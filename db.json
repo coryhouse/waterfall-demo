@@ -1,0 +1,33 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "json-server",
+      "author": "Cory House"
+    },
+    {
+      "id": 2,
+      "title": "React: The Good Parts",
+      "author": "Cory House"
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "links": [
+    {
+      "id": 1,
+      "url": "/",
+      "text": "Home"
+    },
+    {
+      "id": 2,
+      "url": "http://www.facebook.com",
+      "text": "Facebook"
+    }
+  ]
+}
