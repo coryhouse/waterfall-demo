@@ -7,7 +7,7 @@ type CommentsProps = {
 };
 
 export default function Comments({ postId }: CommentsProps) {
-  const comments = useQuery(["comment", postId], () => getComments(postId));
+  const comments = useQuery(["comments", postId], () => getComments(postId));
 
   if (comments.isLoading) {
     return <div>Loading comments...</div>;
