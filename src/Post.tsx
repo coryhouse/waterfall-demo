@@ -35,7 +35,9 @@ export default function Post() {
       <h1>{post.data.title}</h1>
       <h2>Comments</h2>
       {comments.data && comments.data.length > 0
-        ? comments.data.map((comment) => <Comment comment={comment} />)
+        ? comments.data.map((comment) => (
+            <Comment key={comment.id} comment={comment} />
+          ))
         : "No comments"}
     </>
   );
