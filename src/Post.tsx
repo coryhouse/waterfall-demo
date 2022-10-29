@@ -10,6 +10,7 @@ export default function Post() {
 
   const postIdAsNumber = Number(postId);
 
+  // These queries run in parallel automatically
   const post = useQuery(["post", postIdAsNumber], () =>
     getPost(postIdAsNumber)
   );
