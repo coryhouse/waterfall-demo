@@ -2,7 +2,7 @@
   "posts": [
     {
       "id": 1,
-      "title": "json-server",
+      "title": "Post 1 Title",
       "author": "Cory House"
     },
     {
