@@ -5,6 +5,7 @@ import { Comment as CommentType } from "./types/Comment.types";
 type CommentProps = {
   comment: CommentType;
 };
+
 export default function Comment({ comment }: CommentProps) {
   const user = useQuery(["user", comment.userId], () =>
     getUser(comment.userId)
