@@ -14,7 +14,7 @@
   "comments": [
     {
       "id": 1,
-      "body": "some comment",
+      "body": "This comment loads late because the Post component must mount and finish its fetch before Comment's fetch begins.",
       "postId": 1,
       "userId": 1
     }
