@@ -1,16 +1,21 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import Comments from "./Comments";
+import { getComments } from "./services/commentService";
 import { getPost } from "./services/postService";
 
 export default function Post() {
-  const { postId } = useParams();
-  if (!postId) throw new Error("Invalid postId");
+  const { postId: postIdString } = useParams();
+  const queryClient = useQueryClient();
+  if (!postIdString) throw new Error("Invalid postId");
 
-  const postIdAsNumber = Number(postId);
+  const postId = Number(postIdString);
 
-  const post = useQuery(["post", postIdAsNumber], () =>
-    getPost(postIdAsNumber)
+  const post = useQuery(["post", postId], () => getPost(postId));
+
+  // ⬇️ initiate a fetch before the comments component renders
+  queryClient.prefetchQuery(["comments", postId], () =>
+    getComments(Number(postId))
   );
 
   if (post.isLoading) {
@@ -24,7 +29,7 @@ export default function Post() {
   return (
     <>
       <h1>{post.data.title}</h1>
-      <Comments postId={postIdAsNumber} />
+      <Comments postId={postId} />
     </>
   );
 }
