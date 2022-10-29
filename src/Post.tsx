@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { getComments } from "./services/commentService";
 import { getPost } from "./services/postService";
+import Comment from "./Comment";
 
 export default function Post() {
   const { postId } = useParams();
@@ -34,7 +35,7 @@ export default function Post() {
       <h1>{post.data.title}</h1>
       <h2>Comments</h2>
       {comments.data && comments.data.length > 0
-        ? comments.data.map((comment) => <p key={comment.id}>{comment.body}</p>)
+        ? comments.data.map((comment) => <Comment comment={comment} />)
         : "No comments"}
     </>
   );
