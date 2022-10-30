@@ -6,6 +6,10 @@ import Post, { loader as postLoader } from "./Post";
 import About from "./About";
 import ErrorPage from "./ErrorPage";
 import AppLayout from "./AppLayout";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import React from "react";
+
+const queryClient = new QueryClient();
 
 // If preferred, can use JSX below via createRoutesFromElements: https://reactrouter.com/en/main/start/tutorial#jsx-routes
 const router = createBrowserRouter([
@@ -36,4 +40,10 @@ const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 
-root.render(<RouterProvider router={router} />);
+root.render(
+  <React.StrictMode>
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
+  </React.StrictMode>
+);
