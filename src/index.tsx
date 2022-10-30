@@ -20,7 +20,7 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Posts />,
-        loader: postsLoader,
+        loader: postsLoader(queryClient),
         errorElement: <ErrorPage />,
       },
       {
