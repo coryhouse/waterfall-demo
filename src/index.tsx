@@ -8,6 +8,7 @@ import ErrorPage from "./ErrorPage";
 import AppLayout from "./AppLayout";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React from "react";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const queryClient = new QueryClient();
 
@@ -27,10 +28,12 @@ const router = createBrowserRouter([
         path: "/post/:id",
         element: <Post />,
         loader: postLoader(queryClient),
+        errorElement: <ErrorPage />,
       },
       {
         path: "/about",
         element: <About />,
+        errorElement: <ErrorPage />,
       },
     ],
   },
@@ -43,6 +46,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools />
       <RouterProvider router={router} />
     </QueryClientProvider>
   </React.StrictMode>
