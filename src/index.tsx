@@ -17,6 +17,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <AppLayout />,
+    loader: AppLayout.loader(queryClient),
     children: [
       {
         path: "/",
