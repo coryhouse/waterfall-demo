@@ -1,23 +1,16 @@
-import { useQuery } from "@tanstack/react-query";
-import { getComments } from "./services/commentService";
 import Comment from "./Comment";
+import { Comment as CommentType } from "./types/Comment.types";
 
 type CommentsProps = {
-  postId: number;
+  comments: CommentType[];
 };
 
-export default function Comments({ postId }: CommentsProps) {
-  const comments = useQuery(["comments", postId], () => getComments(postId));
-
-  if (comments.isLoading) {
-    return <div>Loading comments...</div>;
-  }
-
+export default function Comments({ comments }: CommentsProps) {
   return (
     <>
       <h2>Comments</h2>
-      {comments.data && comments.data.length > 0
-        ? comments.data.map((comment) => (
+      {comments.length > 0
+        ? comments.map((comment: CommentType) => (
             <Comment key={comment.id} comment={comment} />
           ))
         : "No comments"}
