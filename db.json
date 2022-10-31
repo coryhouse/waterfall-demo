@@ -17,12 +17,23 @@
       "body": "This comment loads late because the Post component must mount and finish its fetch before Comment's fetch begins.",
       "postId": 1,
       "userId": 1
+    },
+    {
+      "id": 2,
+      "body": "This is a second comment.",
+      "postId": 1,
+      "userId": 2
     }
   ],
   "users": [
     {
       "id": 1,
       "name": "Cory House",
+      "avatar": "https://s.gravatar.com/avatar/7b7d4c2d7c8a7d2d7d2d7d2d7d2d7d2d?s=80"
+    },
+    {
+      "id": 2,
+      "name": "Scott Allen",
       "avatar": "https://s.gravatar.com/avatar/7b7d4c2d7c8a7d2d7d2d7d2d7d2d7d2d?s=80"
     }
   ],
