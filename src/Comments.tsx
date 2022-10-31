@@ -1,8 +1,8 @@
 import Comment from "./Comment";
-import { Comment as CommentType } from "./types/Comment.types";
+import { CommentWithUser } from "./types/Comment.types";
 
 type CommentsProps = {
-  comments: CommentType[];
+  comments: CommentWithUser[];
 };
 
 export default function Comments({ comments }: CommentsProps) {
@@ -10,7 +10,7 @@ export default function Comments({ comments }: CommentsProps) {
     <>
       <h2>Comments</h2>
       {comments.length > 0
-        ? comments.map((comment: CommentType) => (
+        ? comments.map((comment) => (
             <Comment key={comment.id} comment={comment} />
           ))
         : "No comments"}
