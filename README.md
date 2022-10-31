@@ -2,14 +2,18 @@
 
 This repo shows different approaches for handling fetch waterfalls in React.
 
+Your React app probably needs caching. React Router doesn't have caching built in. React Query is a best-of-breed option, so integrating React Router with React Query is going to be common.
+
+So this repo shows different approaches for using React Router and React Query together to handle fetch waterfalls.
+
+tl;dr: React Query's prefetch with "legacy" React Router is simplest for now. Avoid React Router 6.4's new features.
+
 - main branch: Uses React query alone
 - prefetch: Prefetches requests with React query
 - react-router-loaders: Uses React Router 6.4 loaders without React Query
 - react-router-loaders-with-react-query: Uses React Router 6.4 loaders with React Query
 
-## Key takeaways
-
-Your React app probably needs caching. React Router doesn't have caching built in. React Query is a best-of-breed option, so integrating React Router with React Query is going to be common.
+## Takeaways
 
 1. React Query's prefetch approach is flexible and trivial to implement. You place a prefetch in a parent, when desired. No other changes to your existing code are necessary.
 2. React Router's loaders couple the fetch approach to the route. You can only have one loader per route. So, if you want to get more granular (by lazy loading parts of a route), you end up with two different ways of fetching data. The loader for things that should cause the route's Suspense fallback to render, and raw React Query for anything you want to lazy load on the route after the initial render, when scrolled into view, etc.
