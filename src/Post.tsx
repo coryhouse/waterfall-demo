@@ -1,44 +1,63 @@
-import { QueryClient, useQuery } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
+import { QueryClient } from "@tanstack/react-query";
+import { Suspense } from "react";
+import { Await, defer, useLoaderData } from "react-router-dom";
 import Comments from "./Comments";
 import { getPost } from "./services/postService";
+import { Post as PostType } from "./types/Post.types";
+import { CommentWithUser } from "./types/Comment.types";
+import { isNumeric } from "./utils/isNumeric";
+import { getCommentsWithUser } from "./services/commentService";
 
-const isNumeric = (num: any) =>
-  (typeof num === "number" || (typeof num === "string" && num.trim() !== "")) &&
-  !isNaN(num as number);
+type LoaderResponse = {
+  post: Promise<PostType>;
+  comments: Promise<CommentWithUser[]>;
+};
 
 const postQuery = (id: number) => ({
   queryKey: ["post", id],
   queryFn: () => getPost(id),
 });
 
+const commentsQuery = (postId: number) => ({
+  queryKey: ["comments", postId],
+  queryFn: () => getCommentsWithUser(postId),
+});
+
 export const loader =
   (queryClient: QueryClient) =>
   async ({ params }: any) => {
-    const query = postQuery(params.id);
-    return (
-      queryClient.getQueryData(query.queryKey) ??
-      (await queryClient.fetchQuery(query))
-    );
+    const { id } = params;
+    if (!isNumeric(id)) throw new Error("Invalid id provided");
+    const postQueryById = postQuery(id);
+    const commentsQueryByPostId = commentsQuery(id);
+
+    return defer({
+      post: {
+        ...(queryClient.getQueryData(postQueryById.queryKey) ??
+          (await queryClient.fetchQuery(postQueryById))),
+        comments:
+          queryClient.getQueryData(commentsQueryByPostId.queryKey) ??
+          (await queryClient.fetchQuery(commentsQueryByPostId)),
+      },
+    });
   };
 
 export default function Post() {
-  const { id } = useParams();
-  if (!id || Number.isInteger(id)) throw new Error("No id provided");
-  if (!isNumeric(id)) throw new Error("Invalid id provided");
-  const post = useQuery(postQuery(Number(id)));
+  const data = useLoaderData() as LoaderResponse;
 
-  if (!post.isLoading && !post.data) {
-    return <div>Post not found</div>;
-  }
-
-  return post.data ? (
-    <>
-      <h1>{post.data.title}</h1>
-      <Comments postId={post.data.id} />
-    </>
-  ) : (
-    <>Loading post...</>
+  return (
+    <Suspense fallback={<div>Loading post...</div>}>
+      <Await resolve={data.post} errorElement={<p>Error loading post!</p>}>
+        {(post) => {
+          return (
+            <>
+              <h1>{post.title}</h1>
+              <Comments comments={post.comments} />
+            </>
+          );
+        }}
+      </Await>
+    </Suspense>
   );
 }
 
