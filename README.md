@@ -15,7 +15,7 @@ tl;dr: React Query's prefetch with "legacy" React Router is simplest for now. Av
 
 ## Takeaways
 
-1. React Query's prefetch approach is flexible and trivial to implement. You place a prefetch in a parent, when desired. No other changes to your existing code are necessary.
+1. React Query's prefetch approach is flexible and trivial to implement. You place a prefetch in a parent, when desired. No other changes to existing code are necessary.
 2. React Router's loaders couple the fetch approach to the route. You can only have one loader per route. So, if you want to get more granular (by lazy loading parts of a route), you end up with two different ways of fetching data. The loader for things that should cause the route's Suspense fallback to render, and raw React Query for anything you want to lazy load on the route after the initial render, when scrolled into view, etc.
 3. React Router new loader approach has many moving parts: A loader prop on the route, the loader function itself, a Suspense component with a fallback, an Await component inside the Suspense wrapper, and a defer wrapper, assuming you want the same level of granularity as React Query's prefetch. This is a lot of boilerplate.
 4. Unfortunately, integrating React Router's loaders with React Query is cumbersome. You have to pass the queryClient to the loader, and accept it in the loader via an extra wrapper function, which may confuse some developers.
