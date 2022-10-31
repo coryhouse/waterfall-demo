@@ -1,6 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
+import { QueryClient, useQuery } from "@tanstack/react-query";
 import { Suspense } from "react";
-import { Link, useLoaderData, defer, Await } from "react-router-dom";
+import { Await, defer, Link, useLoaderData } from "react-router-dom";
 import { getPosts } from "./services/postService";
 import { Post } from "./types/Post.types";
 
@@ -8,9 +8,18 @@ type LoaderResponse = {
   posts: Promise<Post[]>;
 };
 
-export function loader() {
-  return defer({ posts: getPosts() });
-}
+const postsQuery = {
+  queryKey: ["posts"],
+  queryFn: getPosts,
+};
+
+export const loader = (queryClient: QueryClient) => async () => {
+  return defer({
+    posts:
+      queryClient.getQueryData(postsQuery.queryKey) ??
+      (await queryClient.fetchQuery(postsQuery)),
+  });
+};
 
 export default function Posts() {
   const data = useLoaderData() as LoaderResponse;
