@@ -13,7 +13,8 @@ export default function Post() {
 
   const post = useQuery(["post", postId], () => getPost(postId));
 
-  // ⬇️ prefetch comments before the comments component renders
+  // ⬇️ Prefetch comments before the comments component renders
+  // Alternatively, could move the comments fetch here.
   queryClient.prefetchQuery(["comments", postId], () =>
     getComments(Number(postId))
   );
