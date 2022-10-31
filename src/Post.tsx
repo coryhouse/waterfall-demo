@@ -15,9 +15,7 @@ export default function Post() {
 
   // ⬇️ Prefetch comments before the comments component renders
   // Alternatively, could move the comments fetch here.
-  queryClient.prefetchQuery(["comments", postId], () =>
-    getComments(Number(postId))
-  );
+  queryClient.prefetchQuery(["comments", postId], () => getComments(postId));
 
   if (post.isLoading) {
     return <div>Loading post...</div>;
