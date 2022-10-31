@@ -46,14 +46,17 @@ export default function Post() {
   return (
     <Suspense fallback={<div>Loading post...</div>}>
       <Await resolve={data.post} errorElement={<p>Error loading post!</p>}>
-        {(post: PostWithComments) => {
-          return (
-            <>
-              <h1>{post.title}</h1>
-              <Comments comments={post.comments} />
-            </>
-          );
-        }}
+        {
+          // Unfortunately this isn't typed by React Router, so gotta do so manually here.
+          (post: PostWithComments) => {
+            return (
+              <>
+                <h1>{post.title}</h1>
+                <Comments comments={post.comments} />
+              </>
+            );
+          }
+        }
       </Await>
     </Suspense>
   );
