@@ -3,14 +3,12 @@ import { Suspense } from "react";
 import { Await, defer, useLoaderData } from "react-router-dom";
 import Comments from "./Comments";
 import { getPost } from "./services/postService";
-import { Post as PostType } from "./types/Post.types";
-import { CommentWithUser } from "./types/Comment.types";
+import { PostWithComments } from "./types/Post.types";
 import { isNumeric } from "./utils/isNumeric";
 import { getCommentsWithUser } from "./services/commentService";
 
 type LoaderResponse = {
-  post: Promise<PostType>;
-  comments: Promise<CommentWithUser[]>;
+  post: Promise<PostWithComments>;
 };
 
 const postQuery = (id: number) => ({
@@ -48,7 +46,7 @@ export default function Post() {
   return (
     <Suspense fallback={<div>Loading post...</div>}>
       <Await resolve={data.post} errorElement={<p>Error loading post!</p>}>
-        {(post) => {
+        {(post: PostWithComments) => {
           return (
             <>
               <h1>{post.title}</h1>
